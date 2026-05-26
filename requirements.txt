@@ -21,5 +21,4 @@ chromadb==0.6.3
 langchain-groq==0.3.2
 groq==0.22.0
 
-# UI
-gradio==5.29.1
+# UI — gradio is installed automatically by HuggingFace Spaces
