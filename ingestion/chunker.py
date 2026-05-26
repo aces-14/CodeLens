@@ -16,31 +16,35 @@ CHUNK_SIZE = 800       # characters per chunk
 CHUNK_OVERLAP = 100    # overlap between consecutive chunks
 MIN_CHUNK_LENGTH = 50  # discard chunks shorter than this — they're usually noise
 
-# Maps the language labels from detect_language() to LangChain's Language enum.
-# Only languages that LangChain supports code-aware splitting for are listed here.
-# Everything else falls back to the generic splitter.
+# Maps language labels from detect_language() to LangChain's Language enum.
+# Built at import time using hasattr — enum members vary across LangChain versions,
+# so anything missing is silently skipped and falls back to the generic splitter.
+_ENUM_CANDIDATES = {
+    "Python":           "PYTHON",
+    "JavaScript":       "JS",
+    "TypeScript":       "TS",
+    "Go":               "GO",
+    "Ruby":             "RUBY",
+    "Rust":             "RUST",
+    "C":                "C",
+    "C++":              "CPP",
+    "C#":               "CSHARP",
+    "Scala":            "SCALA",
+    "Swift":            "SWIFT",
+    "Kotlin":           "KOTLIN",
+    "Java":             "JAVA",
+    "PHP":              "PHP",
+    "R":                "R",
+    "Markdown":         "MARKDOWN",
+    "reStructuredText": "RST",
+    "HTML":             "HTML",
+    "PowerShell":       "POWERSHELL",
+    "Latex":            "LATEX",
+}
 _LANGUAGE_ENUM_MAP: dict[str, Language] = {
-    "Python":             Language.PYTHON,
-    "JavaScript":         Language.JS,
-    "TypeScript":         Language.TS,
-    "Go":                 Language.GO,
-    "Ruby":               Language.RUBY,
-    "Rust":               Language.RUST,
-    "C":                  Language.C,
-    "C++":                Language.CPP,
-    "C#":                 Language.CSHARP,
-    "Scala":              Language.SCALA,
-    "Swift":              Language.SWIFT,
-    "Kotlin":             Language.KOTLIN,
-    "Java":               Language.JAVA,
-    "PHP":                Language.PHP,
-    "R":                  Language.R,
-    "Markdown":           Language.MARKDOWN,
-    "reStructuredText":   Language.RST,
-    "HTML":               Language.HTML,
-    "PowerShell":         Language.POWERSHELL,
-    "Latex":              Language.LATEX,
-    # SQL has no Language enum entry — falls back to generic splitter
+    label: getattr(Language, attr)
+    for label, attr in _ENUM_CANDIDATES.items()
+    if hasattr(Language, attr)
 }
 
 
