@@ -1,0 +1,96 @@
+# ── Python ────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+.eggs/
+wheels/
+*.whl
+MANIFEST
+
+# ── Virtual environments ──────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+.env.local
+
+# ── Environment variables ─────────────────────────────────
+.env
+# Keep the example file
+!.env.example
+
+# ── Testing & coverage ────────────────────────────────────
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+
+# ── Type checking ─────────────────────────────────────────
+.mypy_cache/
+.pyright/
+.ruff_cache/
+
+# ── Jupyter ───────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ── ChromaDB ─────────────────────────────────────────────
+chroma_db/
+*.chroma
+*.sqlite3
+
+# ── HuggingFace / sentence-transformers cache ─────────────
+.cache/
+*.cache/
+models/
+
+# ── Gradio ────────────────────────────────────────────────
+gradio_cached_examples/
+flagged/
+
+# ── IDEs & editors ────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# ── OS ────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Logs ─────────────────────────────────────────────────
+*.log
+logs/
+
+# ── Misc ─────────────────────────────────────────────────
+*.bak
+*.tmp
+.temp/
+
+# ── Personal / dev-process files ─────────────────────────
+project_logs.md
+project_plan.md
+Interview_Notes_CodeLens.md
+linkedin_posts.md
+doc_assistant_overview.md
+
+# ── Test scripts ─────────────────────────────────────────
+test_phase*.py
+test_*.py
+
+# ── Claude Code project context ──────────────────────────
+.claude/
