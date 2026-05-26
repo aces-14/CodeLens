@@ -45,7 +45,7 @@ Paste a GitHub URL and chat with the codebase in natural language. Ask questions
 
 **1. Clone the repo**
 ```bash
-git clone https://github.com/YOUR_USERNAME/CodeLens.git
+git clone https://github.com/AcePilpil/CodeLens.git
 cd CodeLens
 ```
 
