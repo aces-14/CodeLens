@@ -31,118 +31,262 @@ body, .gradio-container, .gradio-container > div,
 .gradio-container { padding-top: 0 !important; }
 footer { display: none !important; }
 
+/* Scanline overlay */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(0,0,0,0.06) 3px,
+        rgba(0,0,0,0.06) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* ── Animations ── */
+@keyframes glow-pulse {
+    0%, 100% { text-shadow: 0 0 12px rgba(0,229,255,0.55), 0 0 28px rgba(0,229,255,0.2); }
+    50% { text-shadow: 0 0 22px rgba(0,229,255,0.95), 0 0 55px rgba(0,229,255,0.4), 0 0 90px rgba(0,229,255,0.1); }
+}
+@keyframes blink-cursor {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+}
+@keyframes pulse-dot {
+    0%, 100% { box-shadow: 0 0 3px #00e5ff; opacity: 0.7; }
+    50% { box-shadow: 0 0 8px #00e5ff, 0 0 16px rgba(0,229,255,0.5); opacity: 1; }
+}
+@keyframes status-flicker {
+    0%, 92%, 100% { opacity: 1; }
+    95% { opacity: 0.35; }
+    97% { opacity: 1; }
+    99% { opacity: 0.5; }
+}
+
 /* ── Landing layout ── */
-/* Spacer columns are invisible; the center card takes 50% via scale */
 #spacer-l, #spacer-r { padding: 0 !important; min-height: 0 !important; }
 #spacer-l *, #spacer-r * { visibility: hidden !important; }
-/* Center card vertical padding */
 #landing-card { padding-top: 12vh !important; padding-bottom: 4vh !important; }
 
 /* ── Chat section ── */
-/* Constrain chat width so it feels focused, not full-screen */
 #chat-col { padding-left: 4vw !important; padding-right: 4vw !important; }
 
-/* URL input */
+/* URL input — terminal style */
 #url-input textarea {
-    background: #141414 !important;
-    border: 2px solid #00e5ff !important;
-    color: #e0e0e0 !important;
-    border-radius: 8px !important;
-    font-size: 1rem !important;
-    padding: 0.6rem 0.9rem !important;
+    background: #080808 !important;
+    border: 1px solid rgba(0,229,255,0.38) !important;
+    color: #00e5ff !important;
+    border-radius: 3px !important;
+    font-size: 0.9rem !important;
+    font-family: 'Courier New', monospace !important;
+    padding: 0.65rem 1rem !important;
+    letter-spacing: 0.02em !important;
 }
-#url-input textarea::placeholder { color: #444 !important; }
-#url-input textarea:focus { box-shadow: 0 0 0 3px rgba(0,229,255,0.2) !important; }
+#url-input textarea::placeholder { color: #1a3535 !important; }
+#url-input textarea:focus {
+    box-shadow: 0 0 0 1px rgba(0,229,255,0.3), 0 0 25px rgba(0,229,255,0.12) !important;
+    border-color: #00e5ff !important;
+    outline: none !important;
+}
 
-/* Load button */
+/* Load button — terminal style */
 #load-btn button {
-    background: #00e5ff !important;
-    background-color: #00e5ff !important;
+    background: transparent !important;
+    background-color: transparent !important;
     background-image: none !important;
-    color: #0a0a0a !important;
-    border: none !important;
-    border-radius: 8px !important;
-    font-weight: 700 !important;
-    font-size: 1rem !important;
+    color: #00e5ff !important;
+    border: 1px solid rgba(0,229,255,0.6) !important;
+    border-radius: 3px !important;
+    font-weight: 600 !important;
+    font-size: 0.8rem !important;
+    font-family: 'Courier New', monospace !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
     width: 100% !important;
-    transition: box-shadow 0.2s !important;
+    transition: all 0.2s !important;
 }
-#load-btn button:hover { box-shadow: 0 0 18px rgba(0,229,255,0.5) !important; }
+#load-btn button:hover {
+    background: rgba(0,229,255,0.07) !important;
+    background-color: rgba(0,229,255,0.07) !important;
+    box-shadow: 0 0 22px rgba(0,229,255,0.28), inset 0 0 15px rgba(0,229,255,0.04) !important;
+}
 
 /* Status text */
-#load-status p { color: #00e5ff !important; font-size: 0.88rem !important; text-align: center; }
+#load-status p {
+    color: rgba(0,229,255,0.8) !important;
+    font-size: 0.76rem !important;
+    text-align: center;
+    font-family: 'Courier New', monospace !important;
+    letter-spacing: 0.07em !important;
+    animation: status-flicker 5s infinite !important;
+}
 
 /* ── Chat section ── */
 #chat-header {
-    background: #111 !important;
-    border-bottom: 1px solid #1e1e1e !important;
+    background: #080808 !important;
+    border-bottom: 1px solid rgba(0,229,255,0.1) !important;
     padding: 0.5rem 1rem !important;
 }
-#repo-info p, #repo-info * { color: #888 !important; font-size: 0.82rem !important; margin: 0 !important; }
+#repo-info p, #repo-info * {
+    color: #555 !important; font-size: 0.8rem !important;
+    margin: 0 !important; font-family: 'Courier New', monospace !important;
+}
 
 /* Chatbot bubbles */
 .message.bot {
-    background: #161616 !important; border: 1px solid #1e1e1e !important;
-    border-radius: 10px !important; color: #e0e0e0 !important;
+    background: #0c0c0c !important; border: 1px solid rgba(0,229,255,0.08) !important;
+    border-radius: 3px !important; color: #d0d0d0 !important;
 }
 .message.user {
-    background: #002a2e !important; border: 1px solid rgba(0,229,255,0.15) !important;
-    border-radius: 10px !important; color: #e0e0e0 !important;
+    background: #001419 !important; border: 1px solid rgba(0,229,255,0.18) !important;
+    border-radius: 3px !important; color: #e0e0e0 !important;
 }
 
 /* Message input */
 #msg-input textarea {
-    background: #141414 !important; border: 1px solid #272727 !important;
-    color: #e0e0e0 !important; border-radius: 8px !important;
-    font-size: 0.93rem !important;
+    background: #080808 !important; border: 1px solid #181818 !important;
+    color: #e0e0e0 !important; border-radius: 3px !important;
+    font-size: 0.9rem !important;
 }
-#msg-input textarea:focus { border-color: #00e5ff !important; box-shadow: 0 0 0 2px rgba(0,229,255,0.15) !important; }
-#msg-input textarea::placeholder { color: #3a3a3a !important; }
+#msg-input textarea:focus {
+    border-color: rgba(0,229,255,0.45) !important;
+    box-shadow: 0 0 0 1px rgba(0,229,255,0.15), 0 0 15px rgba(0,229,255,0.07) !important;
+}
+#msg-input textarea::placeholder { color: #282828 !important; }
 
 /* Send button */
 #send-btn button {
-    background: #00e5ff !important;
-    background-color: #00e5ff !important;
+    background: transparent !important;
+    background-color: transparent !important;
     background-image: none !important;
-    color: #0a0a0a !important;
-    border: none !important; border-radius: 8px !important; font-weight: 700 !important;
+    color: #00e5ff !important;
+    border: 1px solid rgba(0,229,255,0.48) !important;
+    border-radius: 3px !important;
+    font-weight: 600 !important;
+    font-family: 'Courier New', monospace !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase !important;
+    font-size: 0.78rem !important;
 }
-#send-btn button:hover { box-shadow: 0 0 12px rgba(0,229,255,0.4) !important; }
-#send-btn button:disabled { background: #182828 !important; background-color: #182828 !important; background-image: none !important; color: #254040 !important; }
+#send-btn button:hover {
+    background: rgba(0,229,255,0.07) !important;
+    background-color: rgba(0,229,255,0.07) !important;
+    box-shadow: 0 0 14px rgba(0,229,255,0.28) !important;
+}
+#send-btn button:disabled {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    color: #152020 !important;
+    border-color: #152020 !important;
+}
 
 /* Secondary buttons */
 #clear-chat-btn button, #new-repo-btn button {
-    background: transparent !important; border-radius: 6px !important;
-    font-size: 0.8rem !important; transition: border-color 0.15s, color 0.15s !important;
+    background: transparent !important; border-radius: 3px !important;
+    font-size: 0.73rem !important;
+    font-family: 'Courier New', monospace !important;
+    letter-spacing: 0.07em !important;
+    text-transform: uppercase !important;
+    transition: all 0.15s !important;
 }
-#clear-chat-btn button { border: 1px solid #2e2e2e !important; color: #777 !important; }
-#clear-chat-btn button:hover { border-color: #555 !important; color: #aaa !important; }
-#new-repo-btn button { border: 1px solid rgba(0,229,255,0.35) !important; color: #00e5ff !important; }
-#new-repo-btn button:hover { background: rgba(0,229,255,0.07) !important; }
+#clear-chat-btn button { border: 1px solid #1c1c1c !important; color: #444 !important; }
+#clear-chat-btn button:hover { border-color: #383838 !important; color: #888 !important; }
+#new-repo-btn button { border: 1px solid rgba(0,229,255,0.25) !important; color: rgba(0,229,255,0.7) !important; }
+#new-repo-btn button:hover {
+    background: rgba(0,229,255,0.05) !important;
+    box-shadow: 0 0 8px rgba(0,229,255,0.18) !important;
+}
 
 /* Chatbot container */
-#chatbot { border: 1px solid #1e1e1e !important; border-radius: 8px !important; }
+#chatbot { border: 1px solid rgba(0,229,255,0.08) !important; border-radius: 3px !important; }
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
+::-webkit-scrollbar-thumb { background: #1a1a1a; border-radius: 2px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(0,229,255,0.25); }
 
-input, textarea { background: #141414 !important; color: #e0e0e0 !important; }
+input, textarea { background: #080808 !important; color: #e0e0e0 !important; }
 """
 
 LOGO_HTML = """
-<div style="text-align:center; padding: 0 0 2rem 0;">
-  <div style="font-size:4rem; font-weight:900; letter-spacing:-3px; color:#00e5ff;
-              line-height:1; font-family:'Segoe UI',system-ui,sans-serif;">
-    CodeLens
-  </div>
-  <div style="font-size:1.05rem; color:#aaa; margin-top:0.8rem; line-height:1.5;">
-    Understand any public GitHub repository — instantly.
-  </div>
-  <div style="font-size:0.88rem; color:#555; margin-top:0.5rem; line-height:1.6; max-width:380px; margin-left:auto; margin-right:auto;">
-    Paste a repo URL and ask questions like a senior engineer who's already read
-    the whole codebase. Every answer cites the exact source files it came from.
+<div style="position:relative; margin: 0 0 1.5rem 0;">
+
+  <!-- Tech frame with grid background -->
+  <div style="
+    position: relative;
+    background:
+      linear-gradient(rgba(0,229,255,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.035) 1px, transparent 1px),
+      #080808;
+    background-size: 30px 30px, 30px 30px;
+    border: 1px solid rgba(0,229,255,0.22);
+    border-radius: 2px;
+    padding: 1.8rem 2rem 1.5rem 2rem;
+  ">
+
+    <!-- Corner brackets -->
+    <div style="position:absolute;top:-2px;left:-2px;width:16px;height:16px;border-top:2px solid #00e5ff;border-left:2px solid #00e5ff;"></div>
+    <div style="position:absolute;top:-2px;right:-2px;width:16px;height:16px;border-top:2px solid #00e5ff;border-right:2px solid #00e5ff;"></div>
+    <div style="position:absolute;bottom:-2px;left:-2px;width:16px;height:16px;border-bottom:2px solid #00e5ff;border-left:2px solid #00e5ff;"></div>
+    <div style="position:absolute;bottom:-2px;right:-2px;width:16px;height:16px;border-bottom:2px solid #00e5ff;border-right:2px solid #00e5ff;"></div>
+
+    <!-- System status bar -->
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:1.6rem;
+                font-family:'Courier New',monospace;font-size:0.62rem;
+                letter-spacing:0.13em;color:rgba(0,229,255,0.45);text-transform:uppercase;">
+      <div style="width:5px;height:5px;border-radius:50%;background:#00e5ff;
+                  animation:pulse-dot 2.2s ease-in-out infinite;flex-shrink:0;"></div>
+      <span>SYS ONLINE</span>
+      <span style="color:#222;">│</span>
+      <span>RAG READY</span>
+      <span style="color:#222;">│</span>
+      <span>LLM CONNECTED</span>
+      <span style="margin-left:auto;color:#1e3535;">v1.0.0</span>
+    </div>
+
+    <!-- Logo -->
+    <div style="font-size:3.8rem;font-weight:900;letter-spacing:-2px;color:#00e5ff;
+                line-height:1;font-family:'Courier New',monospace;
+                animation:glow-pulse 3s ease-in-out infinite;">
+      CodeLens
+    </div>
+
+    <!-- Tagline -->
+    <div style="font-size:0.9rem;color:#888;margin-top:0.55rem;letter-spacing:0.01em;">
+      Understand any public GitHub repository — instantly.
+    </div>
+
+    <!-- Divider -->
+    <div style="margin:1rem 0;height:1px;
+                background:linear-gradient(90deg,rgba(0,229,255,0.45) 0%,rgba(0,229,255,0.15) 55%,transparent 100%);"></div>
+
+    <!-- Terminal description -->
+    <div style="font-family:'Courier New',monospace;font-size:0.77rem;color:#3a5a5a;line-height:1.95;">
+      <div><span style="color:rgba(0,229,255,0.35);user-select:none;">›&nbsp;</span>Paste a repo URL → query it like a senior engineer who already read the whole codebase.</div>
+      <div><span style="color:rgba(0,229,255,0.35);user-select:none;">›&nbsp;</span>Every answer cites the exact source files it came from.<span style="color:#00e5ff;animation:blink-cursor 1s step-end infinite;margin-left:2px;">▌</span></div>
+    </div>
+
+    <!-- Feature tags -->
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:1.15rem;">
+      <span style="font-family:'Courier New',monospace;font-size:0.59rem;letter-spacing:0.13em;
+                   color:rgba(0,229,255,0.45);background:rgba(0,229,255,0.04);
+                   border:1px solid rgba(0,229,255,0.12);padding:3px 10px;border-radius:2px;">VECTOR SEARCH</span>
+      <span style="font-family:'Courier New',monospace;font-size:0.59rem;letter-spacing:0.13em;
+                   color:rgba(0,229,255,0.45);background:rgba(0,229,255,0.04);
+                   border:1px solid rgba(0,229,255,0.12);padding:3px 10px;border-radius:2px;">RAG PIPELINE</span>
+      <span style="font-family:'Courier New',monospace;font-size:0.59rem;letter-spacing:0.13em;
+                   color:rgba(0,229,255,0.45);background:rgba(0,229,255,0.04);
+                   border:1px solid rgba(0,229,255,0.12);padding:3px 10px;border-radius:2px;">MULTI-LANG</span>
+      <span style="font-family:'Courier New',monospace;font-size:0.59rem;letter-spacing:0.13em;
+                   color:rgba(0,229,255,0.45);background:rgba(0,229,255,0.04);
+                   border:1px solid rgba(0,229,255,0.12);padding:3px 10px;border-radius:2px;">CITED SOURCES</span>
+    </div>
+
   </div>
 </div>
 """
